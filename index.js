@@ -68,7 +68,7 @@ async function run() {
 
     
     // Get data from countries    
-    app.get('/southeastAsia/bangladesh', async (req, res) => {
+    app.get('/countries', async (req, res) => {
       const cursor = countriesCollection.find();
       const results = await cursor.toArray();
       res.send(results);
