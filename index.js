@@ -73,6 +73,15 @@ async function run() {
       const results = await cursor.toArray();
       res.send(results);
     })
+
+    //  Get country data by id
+    app.get('/country/:id', async (req, res) => {
+      // console.log(req.params.id);
+      const id = req.params.id;
+      const results = await countriesCollection.findOne({ _id: new ObjectId(id) });
+      // console.log(results);
+      res.send(results);
+    });
     
     // update data by id 
     app.put('/update/:id', async (req, res) => {
