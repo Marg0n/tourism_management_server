@@ -57,6 +57,15 @@ async function run() {
       res.send(results);
     });
 
+    //  Get data by name holder
+    app.get('/myList/:name', async (req, res) => {
+      // console.log(req.params.name);
+      const name = req.params.name;
+      const results = await touristSpotCollection.find({ name: name }).toArray();
+      // console.log(results)
+      res.send(results);
+    });
+
     
     // Get data from countries    
     app.get('/southeastAsia/bangladesh', async (req, res) => {
@@ -65,7 +74,7 @@ async function run() {
       res.send(results);
     })
     
-    // update data by email holder
+    // update data by id 
     app.put('/update/:id', async (req, res) => {
       // console.log(req.params);
       const id = req.params.id;
