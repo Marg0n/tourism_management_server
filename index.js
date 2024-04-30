@@ -40,15 +40,15 @@ async function run() {
       res.send(results);
     })
 
-     //  Get data by id
+    //  Get data by id
     app.get('/allTouristSpot/:id', async (req, res) => {
       // console.log(req.params.id);
       const id = req.params.id;
       const results = await touristSpotCollection.findOne({ _id: new ObjectId(id) });
-      console.log(results);
+      // console.log(results);
       res.send(results);
     });
-    
+
     //  Get data by email holder
     app.get('/myList/:email', async (req, res) => {
       // console.log(req.params.email);
@@ -57,14 +57,39 @@ async function run() {
       res.send(results);
     });
 
-   
-
-    // Get data from Bangladesh    
+    
+    // Get data from countries    
     app.get('/southeastAsia/bangladesh', async (req, res) => {
       const cursor = countriesCollection.find();
       const results = await cursor.toArray();
       res.send(results);
     })
+    
+    // update data by email holder
+    app.put('/update/:id', async (req, res) => {
+      // console.log(req.params);
+      const id = req.params.id;
+      const request = req.body;
+      const query = { _id: new ObjectId(id) };
+      const data = {
+        $set: {
+          name: request.name, 
+          email: request.email, 
+          photo: request.photo, 
+          spotName: request.spotName, 
+          country: request.country, 
+          location: request.location, 
+          cost: request.cost, 
+          season: request.season, 
+          travelTime: request.travelTime, 
+          visitor: request.visitor, 
+          description: request.description, 
+        }
+      }
+      const result = await touristSpotCollection.updateOne(query, data);
+      // console.log(result);
+      res.send(result);
+    });
 
     // Post data
     app.post('/addTouristSpot', async (req, res) => {
@@ -73,6 +98,14 @@ async function run() {
       const result = await touristSpotCollection.insertOne(newTouristSpot);
       res.send(result);
     })
+
+    // delete data
+    app.delete('/delete/:id', async (req, res) => {
+      const id = req.params.id;
+      const result = await touristSpotCollection.deleteOne({ _id: new ObjectId(id) });
+      // console.log(result);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
