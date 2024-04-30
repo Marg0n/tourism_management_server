@@ -103,7 +103,7 @@ async function run() {
     app.delete('/delete/:id', async (req, res) => {
       const id = req.params.id;
       const result = await touristSpotCollection.deleteOne({ _id: new ObjectId(id) });
-      // console.log(result);
+      console.log(result);
       res.send(result);
     });
 
